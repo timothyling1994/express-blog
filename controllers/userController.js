@@ -1,5 +1,6 @@
 const { body,validationResult } = require('express-validator');
 var User = require('../models/user');
+const bcrypt = require('bcryptjs');
 
 
 exports.create_user = [
@@ -22,16 +23,29 @@ exports.create_user = [
 
 		else
 		{
-			return res.json({
-				email: req.body.email,
-				password: req.body.password,
-				display_name: req.body.display_name,
-			});
-			//bcrypt.hash(req.body.password)
+			bcrypt.hash(req.body.password,10,(err,hashedPassword)=>{
+				if(err){return next(err)};
 
-			/*let user = new User({
-				email: req.body
-			});*/
+				console.log("reach1");
+
+				const user = new User({
+					email:req.body.email,
+					display_name: req.body.display_name,
+					password:hashedPassword
+				}).save(err=>{
+					if(err){
+						return next(err);
+					}
+
+					console.log("user saved!");
+
+					return res.json({
+						email: req.body.email,
+						password: hashedPassword,
+						display_name: req.body.display_name,
+					});
+				});
+			});
 		}
 	}
 
