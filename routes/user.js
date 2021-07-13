@@ -6,16 +6,6 @@ let User = require('../models/user');
 
 let userController = require('../controllers/userController');
 
-/*
-router.get('/', (req, res, next) => {
-  User.find({}).exec(function(err,userArr){
-  	if(err){return next(err);}
-
-  	return res.json({
-  		result:userArr,
-  	});
-  });
-});*/
 
 router.post('/', userController.create_user);
 

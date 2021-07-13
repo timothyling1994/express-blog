@@ -7,10 +7,10 @@ const mongoose = require('mongoose');
 
 var bodyParser = require('body-parser');
 
-var adminRoute = require('./routes/admin');
-var userRoute = require('./routes/user');
-var postRoute = require('./routes/post');
-var commentRoute = require('./routes/comment');
+var adminRouter = require('./routes/admin');
+var userRouter = require('./routes/user');
+var postRouter = require('./routes/post');
+var commentRouter = require('./routes/comment');
 
 
 require('./passport');
@@ -38,9 +38,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({extended: false}));
 
 app.use('/auth', auth);
-app.use('/admin', passport.authenticate('jwt', {session: false}), adminRoute);
-app.use('/user', userRoute);
-app.use('/post', postRoute);
-app.use('/comment',commentRoute);
+app.use('/admin', passport.authenticate('jwt', {session: false}), adminRouter);
+app.use('/user', userRouter);
+app.use('/post', postRouter);
+app.use('/comment',commentRouter);
 
 app.listen(3000,()=>console.log('app listening on port 3000'));
