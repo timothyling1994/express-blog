@@ -121,18 +121,62 @@ exports.create_post = [
 ];
 
 exports.update_post = function(req,res,next){
-	
+	Post.findById(req.params.id).exec(function(err,results){
+		if(err){return next(err);}
+
+		if(results == null)
+		{
+			res.json({
+				"msg":"Post not found. Cannot update.",
+				"id":req.params.id
+			});
+		}
+		else
+		{
+			let updated_post = new Post({
+				_id: req.params.id,
+				email: req.user.email,
+				display_name: req.user.display_name,
+				title: req.body.title,
+				description: req.body.description,
+				time_posted: results.time_posted,
+				isPublished: req.body.isPublished,
+				comments: results.comments,
+			});
+
+			Post.findByIdAndUpdate(req.params.id,updated_post, {}, function (err, thepost){
+				if(err){return next(err);}
+				res.json({
+					"msg":"Post updated",
+					"id":req.params.id
+				});
+			});
+		}
+	});
 };
 
 exports.delete_post = function(req,res,next){
 	
-	Post.findByIdAndRemove(req.params.id,function deletePost(err){
+	Post.findById(req.params.id).exec(function(err,results){
 		if(err){return next(err);}
-		res.json({
-			"msg":"Post deleted",
-			"id":req.params.id
-		});
 
+		if(results == null)
+		{
+			res.json({
+				"msg":"Post not found. Cannot delete.",
+				"id":req.params.id
+			});
+		}
+		else
+		{
+			Post.findByIdAndRemove(req.params.id,function deletePost(err){
+				if(err){return next(err);}
+				res.json({
+					"msg":"Post deleted",
+					"id":req.params.id
+				});
+			});
+		}
 	});
 
 };
