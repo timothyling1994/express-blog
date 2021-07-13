@@ -87,8 +87,6 @@ exports.create_post = [
 
 		else
 		{
-			//console.log(req.user);
-			//return res.json("YEET");
 			
 			const post = new Post({
 		
@@ -128,4 +126,13 @@ exports.update_post = function(req,res,next){
 
 exports.delete_post = function(req,res,next){
 	
+	Post.findByIdAndRemove(req.params.id,function deletePost(err){
+		if(err){return next(err);}
+		res.json({
+			"msg":"Post deleted",
+			"id":req.params.id
+		});
+
+	});
+
 };

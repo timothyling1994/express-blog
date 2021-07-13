@@ -7,9 +7,9 @@ let adminController = require('../controllers/adminController');
 
 router.post('/post',adminController.create_post);
 
-router.put('/post',adminController.update_post);
+router.put('/post/:id',adminController.update_post);
  
-router.delete('/post',adminController.delete_post);
+router.delete('/post/:id',adminController.delete_post);
 
 router.get('/users',adminController.all_users);
 
@@ -19,5 +19,5 @@ router.post('/', adminController.create_admin);
  
 
 
- 
+
 module.exports = router; 

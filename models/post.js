@@ -13,5 +13,9 @@ var PostSchema = new Schema({
 
 });
 
+PostSchema.virtual('url').get(function(){
+	return '/admin/post/' + this._id;
+});
+
 
 module.exports = mongoose.model('Post',PostSchema);
