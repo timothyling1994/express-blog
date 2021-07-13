@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 var bodyParser = require('body-parser');
 
-var sessionRoute = require('./routes/session');
+var adminRoute = require('./routes/admin');
 var userRoute = require('./routes/user');
 var postRoute = require('./routes/post');
 var commentRoute = require('./routes/comment');
@@ -40,7 +40,8 @@ app.use(express.urlencoded({extended: false}));
 
 //app.use('/session',sessionRoute);
 app.use('/auth', auth);
-app.use('/user', passport.authenticate('jwt', {session: false}), userRoute);
+app.use('/admin', passport.authenticate('jwt', {session: false}), adminRoute);
+app.use('/user', userRoute);
 app.use('/post', postRoute);
 app.use('/comment',commentRoute);
 

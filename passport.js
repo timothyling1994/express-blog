@@ -4,6 +4,7 @@ const passportJWT = require("passport-jwt");
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const User = require('./models/user');
+const Admin = require('./models/admin');
 const bcrypt = require('bcryptjs');
 
 passport.use(new LocalStrategy({
@@ -11,18 +12,34 @@ passport.use(new LocalStrategy({
         passwordField: 'password'
     }, 
     function (email, password, cb) {
-        console.log(email, password);
 //this one is typically a DB call. Assume that the returned user object is pre-formatted and ready for storing in JWT
         
-        //return User.findOne({email, password}).then(user => {
+       
+        Admin.findOne({email}).lean(true).then(user => {
+
+            if(user)
+            {
+                bcrypt.compare(password,user.password,(err,res)=>{
+                    if(res){
+                        console.log("password MATCHED");
+                        return cb(null, user, {message: 'Logged In Successfully'});
+                    }
+                    else
+                    {
+                        console.log("password NO MATCH");
+                        return cb(null, false, {message: 'Incorrect email or password.'});
+                    }
+                })
+            }
+       }).catch(err => cb(err));; 
+
+
         return User.findOne({email}).lean(true).then(user => {
             if (!user) {
                 return cb(null, false, {message: 'Incorrect email or password.'});
             }
 
-            bcrypt.compare(password,user.password,(err,res)=>{
-                console.log(password);
-                console.log(user.password);
+             bcrypt.compare(password,user.password,(err,res)=>{
                 if(res){
                     console.log("password MATCHED");
                     return cb(null, user, {message: 'Logged In Successfully'});
@@ -42,13 +59,14 @@ passport.use(new JWTStrategy({
         secretOrKey : 'your_jwt_secret'
     },
     function (jwtPayload, cb) {
-
+        console.log(jwtPayload);
         //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
-        return User.findOneById(jwtPayload.id)
+        return User.findById(jwtPayload._id)
             .then(user => {
                 return cb(null, user);
             })
             .catch(err => {
+                console.log("error");
                 return cb(err);
             });
     }

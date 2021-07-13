@@ -1,23 +1,23 @@
 var express = require('express');
 var router = express.Router();
 
-let User = require('../models/user');
+let Admin = require('../models/admin');
 
 
-let userController = require('../controllers/userController');
+let adminController = require('../controllers/adminController');
 
 
 router.get('/', (req, res, next) => {
-  User.find({}).exec(function(err,userArr){
+  Admin.find({}).exec(function(err,adminArr){
   	if(err){return next(err);}
 
   	return res.json({
-  		result:userArr,
+  		result:adminArr,
   	});
   });
 });
 
-router.post('/', userController.create_user);
+router.post('/', adminController.create_admin);
  
 router.put('/', (req, res) => {
   return res.send('PUT HTTP method on user resource');

@@ -1,9 +1,9 @@
 const { body,validationResult } = require('express-validator');
-var User = require('../models/user');
+var Admin = require('../models/admin');
 const bcrypt = require('bcryptjs');
 
 
-exports.create_user = [
+exports.create_admin = [
 	body('email',"Must be an email address").isEmail().trim().escape().normalizeEmail(),
 	body('display_name',"Must be an email address").trim().escape(),
 	body('password').isLength({min:8}).withMessage('Password must be at least 8 characters long.')
@@ -26,7 +26,7 @@ exports.create_user = [
 			bcrypt.hash(req.body.password,10,(err,hashedPassword)=>{
 				if(err){return next(err)};
 
-				const user = new User({
+				const admin = new Admin({
 					email:req.body.email,
 					display_name: req.body.display_name,
 					password:hashedPassword
@@ -35,7 +35,7 @@ exports.create_user = [
 						return next(err);
 					}
 
-					console.log("user saved!");
+					console.log("admin saved!");
 
 					return res.json({
 						email: req.body.email,
