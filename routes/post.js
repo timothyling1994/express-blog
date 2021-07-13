@@ -8,9 +8,9 @@ let Comment = require('../models/comment');
 
 let userController = require('../controllers/userController');
 let adminController = require('../controllers/adminController');
-//let postController = require('../controllers/postController');
+let postController = require('../controllers/postController');
 
-//router.get('/post',postController);
+router.get('/',postController.all_posts);
 
 
 module.exports = router; 
