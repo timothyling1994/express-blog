@@ -11,10 +11,9 @@ var adminRoute = require('./routes/admin');
 var userRoute = require('./routes/user');
 var postRoute = require('./routes/post');
 var commentRoute = require('./routes/comment');
-//var indexRouter = require('./routes/index');
+
 
 require('./passport');
-//console.log(indexRouter);
 
 require('dotenv').config();
 const mongoDB = process.env.MONGODB_URL;
@@ -38,7 +37,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({extended: false}));
 
-//app.use('/session',sessionRoute);
 app.use('/auth', auth);
 app.use('/admin', passport.authenticate('jwt', {session: false}), adminRoute);
 app.use('/user', userRoute);

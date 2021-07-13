@@ -21,36 +21,38 @@ passport.use(new LocalStrategy({
             {
                 bcrypt.compare(password,user.password,(err,res)=>{
                     if(res){
-                        console.log("password MATCHED");
+                        console.log("Admin password MATCHED");
                         return cb(null, user, {message: 'Logged In Successfully'});
                     }
                     else
                     {
-                        console.log("password NO MATCH");
+                        console.log("Admin password NO MATCH");
                         return cb(null, false, {message: 'Incorrect email or password.'});
                     }
                 })
             }
-       }).catch(err => cb(err));; 
+            else
+            {
+                User.findOne({email}).lean(true).then(user => {
+                    console.log(user);
+                    if (!user) {
+                        return cb(null, false, {message: 'Incorrect email or password.'});
+                    }
 
-
-        return User.findOne({email}).lean(true).then(user => {
-            if (!user) {
-                return cb(null, false, {message: 'Incorrect email or password.'});
+                     bcrypt.compare(password,user.password,(err,res)=>{
+                        if(res){
+                            console.log("User password MATCHED");
+                            return cb(null, user, {message: 'Logged In Successfully'});
+                        }
+                        else
+                        {
+                            console.log("User password NO MATCH");
+                            return cb(null, false, {message: 'Incorrect email or password.'});
+                        }
+                    })
+                }).catch(err => cb(err));
             }
-
-             bcrypt.compare(password,user.password,(err,res)=>{
-                if(res){
-                    console.log("password MATCHED");
-                    return cb(null, user, {message: 'Logged In Successfully'});
-                }
-                else
-                {
-                    console.log("password NO MATCH");
-                    return cb(null, false, {message: 'Incorrect email or password.'});
-                }
-            })
-        }).catch(err => cb(err));
+       }).catch(err => cb(err));; 
     }
 ));
 

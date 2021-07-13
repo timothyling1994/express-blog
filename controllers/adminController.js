@@ -2,6 +2,15 @@ const { body,validationResult } = require('express-validator');
 var Admin = require('../models/admin');
 const bcrypt = require('bcryptjs');
 
+exports.all_users = function (req,res,next) {
+	User.find({}).exec(function(err,userArr){
+	    if(err){return next(err);}
+
+	    return res.json({
+	      result:userArr,
+	    });
+  	});
+};	
 
 exports.create_admin = [
 	body('email',"Must be an email address").isEmail().trim().escape().normalizeEmail(),
@@ -46,7 +55,4 @@ exports.create_admin = [
 			});
 		}
 	}
-
-
-
 ];

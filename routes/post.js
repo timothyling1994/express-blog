@@ -1,31 +1,28 @@
 var express = require('express');
 var router = express.Router();
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const querystring = require('querystring');
-const bcrypt = require('bcryptjs');
-
-const {check,validationResult} = require('express-validator');
 
 let User = require('../models/user');
 let Post = require('../models/post');
 let Comment = require('../models/comment');
 
 let userController = require('../controllers/userController');
+let adminController = require('../controllers/adminController');
+//let postController = require('../controllers/postController');
 
+//router.get('/post',postController);
 
-router.get('/post', (req, res) => {
-  return res.send('GET HTTP method on post resource');
-});
- 
+//need to protect this 
 router.post('/post', (req, res) => {
   return res.send('POST HTTP method on post resource');
 });
- 
+
+//need to protect this
 router.put('/post', (req, res) => {
   return res.send('PUT HTTP method on post resource');
 });
  
+//need to protect this
 router.delete('/post', (req, res) => {
   return res.send('DELETE HTTP method on post resource');
 });

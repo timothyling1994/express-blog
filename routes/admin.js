@@ -7,6 +7,9 @@ let Admin = require('../models/admin');
 let adminController = require('../controllers/adminController');
 
 
+router.get('/users',adminController.all_users);
+
+
 router.get('/', (req, res, next) => {
   Admin.find({}).exec(function(err,adminArr){
   	if(err){return next(err);}
