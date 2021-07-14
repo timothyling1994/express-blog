@@ -9,8 +9,7 @@ var PostSchema = new Schema({
 	description: {type:String,required:true},
 	time_posted: {type:Date, required:true},
 	isPublished: {type:Boolean, required:true},
-	comments: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-
+	comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 });
 
 PostSchema.virtual('url').get(function(){

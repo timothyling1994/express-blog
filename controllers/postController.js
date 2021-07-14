@@ -7,3 +7,11 @@ exports.all_posts = function (req,res,next){
 		});
 	});
 };
+
+exports.post = function (req,res,next){
+	Post.findById(req.params.id).exec(function(err,results){
+		return res.json({
+			results,
+		});
+	});
+};

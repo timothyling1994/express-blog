@@ -90,8 +90,8 @@ exports.create_post = [
 			
 			const post = new Post({
 		
-					email: req.user.email,
-					display_name: req.user.display_name,
+					email: req.body.email,
+					display_name: req.body.display_name,
 					title: req.body.title,
 					description: req.body.description,
 					time_posted: DateTime.now().toFormat('MM-dd-yyyy'),
@@ -107,8 +107,8 @@ exports.create_post = [
 					console.log("post saved!");
 
 					return res.json({
-						email: req.user.email,
-						display_name: req.user.display_name,
+						email: req.body.email,
+						display_name: req.body.display_name,
 						title: req.body.title,
 						description: req.body.description,
 						time_posted: DateTime.now().toFormat('MM-dd-yyyy'),
@@ -135,8 +135,8 @@ exports.update_post = function(req,res,next){
 		{
 			let updated_post = new Post({
 				_id: req.params.id,
-				email: req.user.email,
-				display_name: req.user.display_name,
+				email: req.body.email,
+				display_name: req.body.display_name,
 				title: req.body.title,
 				description: req.body.description,
 				time_posted: results.time_posted,
