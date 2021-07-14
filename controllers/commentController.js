@@ -55,10 +55,11 @@ exports.create_comment = function (req,res,next) {
 	});
 };
 
+//update only your own comments
 exports.update_comment = function (req,res,next) {
 	Comment.findById(req.params.comment_id).exec(function(err,result){
 		if(err){return next(err);}
-
+		
 		let updated_comment = new Comment({
 				_id: req.params.comment_id,
 				comment_content:req.body.comment_content,
@@ -71,12 +72,8 @@ exports.update_comment = function (req,res,next) {
 				if(err){return next(err);}
 				res.json({
 					"msg":"Comment updated",
-					"id":req.params.id
+					"id":req.params.comment_id
 				});
 		});
 	});
-};
-
-exports.delete_comment = function (req,res,next) {
-	console.log(req.params.id);
 };

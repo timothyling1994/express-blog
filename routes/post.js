@@ -11,8 +11,6 @@ router.get('/:id/comment/',commentController.comments);
 router.post('/:id/comment/', commentController.create_comment);
  
 router.put('/:id/comment/:comment_id', commentController.update_comment);
- 
-router.delete('/:id/comment/:comment_id',commentController.delete_comment);
 
 router.get('/:id',postController.post);
 

@@ -2,6 +2,7 @@ const { body,validationResult } = require('express-validator');
 var Admin = require('../models/admin');
 var User = require('../models/user');
 var Post = require('../models/post');
+var Comment = require('../models/comment');
 const bcrypt = require('bcryptjs');
 const { DateTime } = require('luxon');
 
@@ -179,4 +180,28 @@ exports.delete_post = function(req,res,next){
 		}
 	});
 
+};
+
+exports.delete_comment = function (req,res,next) {
+	Comment.findById(req.params.comment_id).exec(function(err,result){
+		if(err){return next(err);}
+
+		if(result == null)
+		{
+			res.json({
+				"msg":"Comment not found. Cannot delete.",
+				"id":req.params.comment_id
+			});
+		}
+		else
+		{
+			Comment.findByIdAndRemove(req.params.comment_id,function deleteComment(err){
+				if(err){return next(err);}
+				res.json({
+					"msg":"Comment deleted",
+					"id":req.params.comment_id
+				});
+			});
+		}
+	});
 };

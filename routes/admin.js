@@ -7,6 +7,8 @@ let adminController = require('../controllers/adminController');
 
 router.post('/post',adminController.create_post);
 
+router.delete('/post/:id/comment/:comment_id',adminController.delete_comment);
+
 router.put('/post/:id',adminController.update_post);
  
 router.delete('/post/:id',adminController.delete_post);
