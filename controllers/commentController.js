@@ -56,7 +56,25 @@ exports.create_comment = function (req,res,next) {
 };
 
 exports.update_comment = function (req,res,next) {
-	console.log(req.params.id);
+	Comment.findById(req.params.comment_id).exec(function(err,result){
+		if(err){return next(err);}
+
+		let updated_comment = new Comment({
+				_id: req.params.comment_id,
+				comment_content:req.body.comment_content,
+				user:result.user,
+				time_posted:result.time_posted,
+
+		});
+
+		Comment.findByIdAndUpdate(req.params.comment_id,updated_comment, {}, function (err, thecomment){
+				if(err){return next(err);}
+				res.json({
+					"msg":"Comment updated",
+					"id":req.params.id
+				});
+		});
+	});
 };
 
 exports.delete_comment = function (req,res,next) {
